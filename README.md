@@ -1,4 +1,4 @@
-# TAED2-ML-Alphas - Image classification for Alzheimer MRI Disease
+# Image classification for Alzheimer MRI Disease
 
 Alzheimer’s disease is a brain disorder that affects more than 55 million people worldwide according to the World Health Organization. Furthermore, the application of new data driven tools and Artificial Intelligence based solutions to its diagnosis and treatment could make a huge impact on patients suffering from it. For this reason, in our project, we will be aiming at classifying MRI scans to detect Alzheimer’s disease. 
 
