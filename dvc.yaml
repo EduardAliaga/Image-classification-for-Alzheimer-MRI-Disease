@@ -1,0 +1,40 @@
+stages:
+  extract_data:
+    cmd: 
+    - mkdir -p data/raw_data/test
+    - mkdir -p data/raw_data/train
+    - python3 src/features/extract_data.py
+    deps:
+    - src/features/extract_data.py
+    outs:
+    - data/raw_data/test/test.parquet
+    - data/raw_data/train/train.parquet
+  prepare:
+    cmd: 
+    - mkdir -p data/prepared_data/test
+    - mkdir -p data/prepared_data/train
+    - python3 src/features/prepare.py data/raw_data/test data/raw_data/train
+    deps:
+    - data/raw_data/test/test.parquet
+    - data/raw_data/train/train.parquet
+    - src/features/prepare.py
+    outs:
+    - data/prepared_data/test/test.pkl
+    - data/prepared_data/train/train.pkl
+  train:
+    cmd:
+    - python3 src/models/train.py
+    deps:
+    - data/prepared_data/test/test.pkl
+    - data/prepared_data/train/train.pkl
+    - params.yaml
+    outs:
+    - models/alzheimerModel.zip
+    - metrics/scores.json
+  eval:
+    cmd: 
+    - python3 src/models/evaluate.py
+    deps:
+    - data/prepared_data/test/test.pkl
+    - models/alzheimerModel.zip
+    - metrics/scores.json

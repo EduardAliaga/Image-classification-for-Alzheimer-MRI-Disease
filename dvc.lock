@@ -1,0 +1,80 @@
+schema: '2.0'
+stages:
+  extract_data:
+    cmd:
+    - mkdir -p data/raw_data/test
+    - mkdir -p data/raw_data/train
+    - python3 src/features/extract_data.py
+    deps:
+    - path: src/features/extract_data.py
+      md5: 09d3fa3d175badf2a7452397e2d15110
+      size: 473
+    outs:
+    - path: data/raw_data/test/test.parquet
+      md5: 4aaa6018761c92eb035de4cd305eee4f
+      size: 5757330
+      isexec: true
+    - path: data/raw_data/train/train.parquet
+      md5: a4fa868e28fe97da1a62e0cb64e35012
+      size: 23043102
+      isexec: true
+  prepare:
+    cmd:
+    - mkdir -p data/prepared_data/test
+    - mkdir -p data/prepared_data/train
+    - python3 src/features/prepare.py data/raw_data/test data/raw_data/train
+    deps:
+    - path: data/raw_data/test/test.parquet
+      md5: 4aaa6018761c92eb035de4cd305eee4f
+      size: 5757330
+    - path: data/raw_data/train/train.parquet
+      md5: a4fa868e28fe97da1a62e0cb64e35012
+      size: 23043102
+    - path: src/features/prepare.py
+      md5: dc8157037c31c4d4f17216345f668c24
+      size: 3176
+    outs:
+    - path: data/prepared_data/test/test.pkl
+      md5: 705be76da6c2e19b5a32651acd7dd8f9
+      size: 257312196
+      isexec: true
+    - path: data/prepared_data/train/train.pkl
+      md5: f7b39cd707db1c429af3ef932b4ca36e
+      size: 1029246065
+      isexec: true
+  eval:
+    cmd:
+    - python3 src/models/evaluate.py
+    deps:
+    - path: data/prepared_data/test/test.pkl
+      md5: 705be76da6c2e19b5a32651acd7dd8f9
+      size: 257312196
+    - path: metrics/scores.json
+      md5: be203cefb3170c800cf2e010b7b3c6a0
+      size: 109
+      isexec: true
+    - path: models/alzheimerModel.zip
+      md5: 8235a88041a2beeec8a1817966a794d9
+      size: 85307653
+  train:
+    cmd:
+    - python3 src/models/train.py
+    deps:
+    - path: data/prepared_data/test/test.pkl
+      md5: 705be76da6c2e19b5a32651acd7dd8f9
+      size: 257312196
+    - path: data/prepared_data/train/train.pkl
+      md5: f7b39cd707db1c429af3ef932b4ca36e
+      size: 1029246065
+    - path: params.yaml
+      md5: e6240a35d527af07892523af1c4161b7
+      size: 70
+    outs:
+    - path: metrics/scores.json
+      md5: e82bd0b23e00fb4d0ec4afd8b264911e
+      size: 77
+      isexec: true
+    - path: models/alzheimerModel.zip
+      md5: 8235a88041a2beeec8a1817966a794d9
+      size: 85307653
+      isexec: true

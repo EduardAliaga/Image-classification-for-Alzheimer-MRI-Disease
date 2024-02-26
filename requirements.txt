@@ -1,0 +1,22 @@
+# Requirements file for reproducing the analysis environment
+# Use pip command to install the packages listed: pip install -r requirements.txt
+
+Python>=3.6          # Python programming language
+Pillow==8.3.1        # Python Imaging Library (Pillow)
+mlflow==1.20.1       # Machine learning lifecycle management
+numpy==1.21.1        # Numerical computing library
+torch==1.9.0         # PyTorch deep learning framework
+torchvision==0.10.0  # PyTorch computer vision library
+codecarbon           # CodeCarbon to report CO2 emissions
+dvc		      # DVC pipeline
+anaconda             # Anaconda distribution
+miniconda            # Miniconda distribution
+torchtext==0.10.0    # PyTorch NLP library (add if used)
+tqdm==4.62.1         # Progress bar
+scikit-learn==0.24.2 # Machine learning library
+dagshub              # DVC support for ML experiment tracking
+json                 # JSON serialization and deserialization
+pickle               # Serialization and deserialization
+pathlib2==2.3.6      # Path handling library (add if used)
+zipfile              # Handling ZIP archives
+uvicorn	      # To execute the API
